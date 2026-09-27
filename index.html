@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podsumowanie Miesiąca - Polska Logistyka VTC</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        vtc: {
+                            dark: '#0a0a0c',
+                            card: '#121217',
+                            cardHover: '#1a1a22',
+                            red: '#e50914',
+                            redHover: '#b20710',
+                            accent: '#ff1e2e'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0c;
+            color: #f3f4f6;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e50914;
+            border-radius: 4px;
+        }
+        .hero-glow {
+            background: radial-gradient(circle at 50% 50%, rgba(229, 9, 20, 0.15) 0%, transparent 70%);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-red-600 selection:text-white">
+
+    <!-- Navbar -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-vtc-dark/90 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="index.html" class="flex items-center space-x-3 group">
+                <img src="https://i.postimg.cc/cLG96180/LOGOS.png" alt="Logo" class="h-10 w-auto object-contain group-hover:scale-105 transition-transform">
+                <div class="flex flex-col">
+                    <span class="font-black text-xl tracking-wider text-white">POLSKA <span class="text-vtc-red">LOGISTYKA</span></span>
+                    <span class="text-[10px] tracking-widest text-gray-400 uppercase font-semibold">Podsumowanie Miesiąca</span>
+                </div>
+            </a>
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-white text-sm font-semibold transition-all border border-white/10">
+                    <i class="fa-solid fa-arrow-left mr-2"></i> Strona Główna
+                </a>
+                <button onclick="openAdminModal()" class="px-4 py-2 rounded-xl bg-vtc-red hover:bg-vtc-redHover text-white text-sm font-semibold transition-all shadow-lg shadow-red-600/30 flex items-center space-x-2">
+                    <i class="fa-solid fa-lock"></i>
+                    <span>Panel Admina</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Header Section -->
+    <section class="relative pt-32 pb-16 md:pt-40 md:pb-20 overflow-hidden text-center">
+        <div class="absolute inset-0 hero-glow pointer-events-none"></div>
+        <div class="max-w-4xl mx-auto px-4 relative z-10 space-y-4">
+            <span class="px-3.5 py-1.5 rounded-full bg-red-600/10 border border-red-500/30 text-vtc-red text-xs md:text-sm font-semibold uppercase tracking-widest">
+                Archiwum Osiągnięć VTC
+            </span>
+            <h1 class="text-4xl sm:text-5xl font-black text-white tracking-tight">
+                Podsumowanie: <span id="display-miesiac" class="text-vtc-red">Wrzesień 2026</span>
+            </h1>
+            <p class="text-gray-400 max-w-xl mx-auto">
+                Sprawdź, jak nasza ekipa zamknęła miniony miesiąc na europejskich i amerykańskich szosach!
+            </p>
+        </div>
+    </section>
+
+    <!-- Global Statistics Cards (Current Month) -->
+    <section class="py-12 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Total KM -->
+                <div class="bg-vtc-card border border-white/10 rounded-3xl p-8 text-center space-y-3 relative overflow-hidden group hover:border-vtc-red/40 transition-all">
+                    <div class="w-14 h-14 mx-auto rounded-2xl bg-red-600/10 text-vtc-red flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-route"></i>
+                    </div>
+                    <div class="text-xs text-gray-400 uppercase font-semibold tracking-wider">Ogółem KM w Miesiącu</div>
+                    <div id="display-km" class="text-4xl font-black text-white">482 650 km</div>
+                </div>
+
+                <!-- Miejsce Polska -->
+                <div class="bg-vtc-card border border-white/10 rounded-3xl p-8 text-center space-y-3 relative overflow-hidden group hover:border-vtc-red/40 transition-all">
+                    <div class="w-14 h-14 mx-auto rounded-2xl bg-red-600/10 text-vtc-red flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-flag"></i>
+                    </div>
+                    <div class="text-xs text-gray-400 uppercase font-semibold tracking-wider">Miejsce w Polsce</div>
+                    <div id="display-pl" class="text-4xl font-black text-white">#4</div>
+                </div>
+
+                <!-- Miejsce Świat -->
+                <div class="bg-vtc-card border border-white/10 rounded-3xl p-8 text-center space-y-3 relative overflow-hidden group hover:border-vtc-red/40 transition-all">
+                    <div class="w-14 h-14 mx-auto rounded-2xl bg-red-600/10 text-vtc-red flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+                    <div class="text-xs text-gray-400 uppercase font-semibold tracking-wider">Miejsce na Świecie</div>
+                    <div id="display-world" class="text-4xl font-black text-white">#19</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TOP 3 Drivers Podium (Current Month) -->
+    <section class="py-16 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+                <span class="text-vtc-red font-bold text-sm tracking-widest uppercase">Najlepsi z Najlepszych</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Podium Kierowców Miesiąca</h2>
+                <p class="text-gray-400">Gratulacje dla kierowców, którzy w tym miesiącu przejechali najwięcej kilometrów!</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-end">
+                <!-- TOP 2 -->
+                <div class="bg-vtc-card border border-white/10 rounded-3xl p-8 text-center space-y-4 order-2 md:order-1 relative">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-gray-300 text-black font-black flex items-center justify-center shadow-lg">2</div>
+                    <div class="w-20 h-20 mx-auto rounded-2xl bg-gray-500/20 text-gray-300 flex items-center justify-center text-3xl">
+                        <i class="fa-solid fa-user-astronaut"></i>
+                    </div>
+                    <div>
+                        <h3 id="display-top2-name" class="text-xl font-bold text-white">Kierowca #2</h3>
+                        <p id="display-top2-km" class="text-vtc-red font-semibold text-lg mt-1">18 400 km</p>
+                    </div>
+                    <div class="text-xs text-gray-400 bg-black/30 py-2 rounded-xl">Wicemistrz Szos</div>
+                </div>
+
+                <!-- TOP 1 -->
+                <div class="bg-vtc-card border-2 border-vtc-red rounded-3xl p-8 text-center space-y-4 order-1 md:order-2 relative shadow-2xl shadow-red-600/20 scale-105">
+                    <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-vtc-red text-white font-black text-xl flex items-center justify-center shadow-lg shadow-red-600/50">
+                        <i class="fa-solid fa-crown"></i>
+                    </div>
+                    <div class="w-24 h-24 mx-auto rounded-2xl bg-red-600/20 text-vtc-red flex items-center justify-center text-4xl">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div>
+                        <h3 id="display-top1-name" class="text-2xl font-black text-white">Kierowca #1</h3>
+                        <p id="display-top1-km" class="text-vtc-red font-extrabold text-xl mt-1">22 150 km</p>
+                    </div>
+                    <div class="text-xs text-white bg-vtc-red py-2.5 rounded-xl font-bold uppercase tracking-wider">Król Szos Miesiąca</div>
+                </div>
+
+                <!-- TOP 3 -->
+                <div class="bg-vtc-card border border-white/10 rounded-3xl p-8 text-center space-y-4 order-3 relative">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-amber-700 text-white font-black flex items-center justify-center shadow-lg">3</div>
+                    <div class="w-20 h-20 mx-auto rounded-2xl bg-amber-700/20 text-amber-500 flex items-center justify-center text-3xl">
+                        <i class="fa-solid fa-user-ninja"></i>
+                    </div>
+                    <div>
+                        <h3 id="display-top3-name" class="text-xl font-bold text-white">Kierowca #3</h3>
+                        <p id="display-top3-km" class="text-vtc-red font-semibold text-lg mt-1">15 900 km</p>
+                    </div>
+                    <div class="text-xs text-gray-400 bg-black/30 py-2 rounded-xl">II Wicemistrz Szos</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Archive Section -->
+    <section class="py-20 bg-vtc-card/30 border-t border-white/5 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+                <span class="text-vtc-red font-bold text-sm tracking-widest uppercase">Historia VTC</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Archiwum Poprzednich Miesięcy</h2>
+                <p class="text-gray-400">Zobacz osiągnięcia naszej firmy z ubiegłych miesięcy.</p>
+            </div>
+
+            <div id="archive-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Archive items will be injected dynamically via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Login / Edit Modal -->
+    <div id="admin-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-vtc-card border border-white/10 rounded-3xl max-w-2xl w-full p-8 space-y-6 relative shadow-2xl">
+            <button onclick="closeAdminModal()" class="absolute top-6 right-6 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <!-- Password Screen -->
+            <div id="password-screen" class="space-y-4">
+                <h3 class="text-xl font-bold text-white">Panel Administratora</h3>
+                <p class="text-sm text-gray-400">Podaj hasło administratora, aby zarządzać podsumowaniami.</p>
+                <input type="password" id="admin-password" placeholder="Wpisz hasło..." class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-vtc-red">
+                <button onclick="checkPassword()" class="w-full py-3 rounded-xl bg-vtc-red hover:bg-vtc-redHover text-white font-bold transition-all">Zaloguj</button>
+                <p id="error-msg" class="text-red-500 text-xs hidden">Nieprawidłowe hasło!</p>
+            </div>
+
+            <!-- Edit Form Screen -->
+            <div id="edit-screen" class="space-y-6 hidden max-h-[80vh] overflow-y-auto pr-2">
+                <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                    <h3 class="text-xl font-bold text-white">Zarządzanie Podsumowaniami</h3>
+                    <button onclick="addNewMonthForm()" class="px-3 py-1.5 rounded-lg bg-green-600 hover:bg-green-700 text-white text-xs font-semibold">
+                        <i class="fa-solid fa-plus mr-1"></i> Dodaj Nowy Miesiąc
+                    </button>
+                </div>
+
+                <div id="admin-months-list" class="space-y-6">
+                    <!-- Dynamic months forms for admin -->
+                </div>
+
+                <button onclick="saveAllData()" class="w-full py-3 rounded-xl bg-vtc-red hover:bg-vtc-redHover text-white font-bold transition-all shadow-lg shadow-red-600/30 sticky bottom-0">Zapisz Wszystkie Zmiany</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-vtc-dark border-t border-white/10 py-12 text-gray-400 text-sm mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-3">
+                <img src="https://i.postimg.cc/cLG96180/LOGOS.png" alt="Logo Stopka" class="h-8 w-auto object-contain">
+                <span class="font-bold text-white tracking-wider">POLSKA <span class="text-vtc-red">LOGISTYKA</span></span>
+            </div>
+            <div>
+                <p>&copy; 2026 Polska Logistyka VTC. Wszelka wirtualna własność zastrzeżona.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        const ADMIN_PASSWORD = "polska2026"; // Hasło administratora
+
+        // Domyślne dane (pierwszy element w tablicy to zawsze bieżący/główny miesiąc)
+        const defaultData = [
+            {
+                miesiac: "Wrzesień 2026",
+                km: "482 650 km",
+                pl: "#4",
+                world: "#19",
+                top1Name: "Kierowca #1",
+                top1Km: "22 150 km",
+                top2Name: "Kierowca #2",
+                top2Km: "18 400 km",
+                top3Name: "Kierowca #3",
+                top3Km: "15 900 km"
+            },
+            {
+                miesiac: "Sierpień 2026",
+                km: "451 200 km",
+                pl: "#5",
+                world: "#21",
+                top1Name: "SpeedyPL",
+                top1Km: "20 400 km",
+                top2Name: "Kamil_99",
+                top2Km: "17 500 km",
+                top3Name: "DriverGT",
+                top3Km: "14 800 km"
+            },
+            {
+                miesiac: "Lipiec 2026",
+                km: "430 100 km",
+                pl: "#6",
+                world: "#24",
+                top1Name: "TruckerMax",
+                top1Km: "19 900 km",
+                top2Name: "Szymon",
+                top2Km: "16 200 km",
+                top3Name: "Bober",
+                top3Km: "13 500 km"
+            }
+        ];
+
+        function getData() {
+            return JSON.parse(localStorage.getItem('vtc_all_summaries')) || defaultData;
+        }
+
+        function saveDataToStorage(data) {
+            localStorage.setItem('vtc_all_summaries', JSON.stringify(data));
+        }
+
+        // Renderowanie strony główniej
+        function renderPage() {
+            const data = getData();
+            if (data.length === 0) return;
+
+            // Główny (najnowszy) miesiąc
+            const current = data[0];
+            document.getElementById('display-miesiac').innerText = current.miesiac;
+            document.getElementById('display-km').innerText = current.km;
+            document.getElementById('display-pl').innerText = current.pl;
+            document.getElementById('display-world').innerText = current.world;
+
+            document.getElementById('display-top1-name').innerText = current.top1Name;
+            document.getElementById('display-top1-km').innerText = current.top1Km;
+            document.getElementById('display-top2-name').innerText = current.top2Name;
+            document.getElementById('display-top2-km').innerText = current.top2Km;
+            document.getElementById('display-top3-name').innerText = current.top3Name;
+            document.getElementById('display-top3-km').innerText = current.top3Km;
+
+            // Archiwum (pozostałe miesiące)
+            const archiveContainer = document.getElementById('archive-container');
+            archiveContainer.innerHTML = '';
+
+            for (let i = 1; i < data.length; i++) {
+                const item = data[i];
+                archiveContainer.innerHTML += `
+                    <div class="bg-vtc-card border border-white/10 rounded-3xl p-6 space-y-4 hover:border-vtc-red/40 transition-all">
+                        <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                            <h3 class="text-xl font-bold text-white">${item.miesiac}</h3>
+                            <span class="text-xs px-2.5 py-1 rounded-full bg-red-600/10 text-vtc-red font-semibold">Archiwum</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-center py-2 bg-black/30 rounded-2xl">
+                            <div>
+                                <div class="text-[10px] text-gray-400 uppercase">KM</div>
+                                <div class="text-sm font-bold text-white">${item.km}</div>
+                            </div>
+                            <div>
+                                <div class="text-[10px] text-gray-400 uppercase">Polska</div>
+                                <div class="text-sm font-bold text-white">${item.pl}</div>
+                            </div>
+                            <div>
+                                <div class="text-[10px] text-gray-400 uppercase">Świat</div>
+                                <div class="text-sm font-bold text-white">${item.world}</div>
+                            </div>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex items-center justify-between text-gray-300 bg-white/5 px-3 py-2 rounded-xl">
+                                <span><i class="fa-solid fa-crown text-vtc-red mr-2"></i> ${item.top1Name}</span>
+                                <span class="font-bold text-vtc-red">${item.top1Km}</span>
+                            </div>
+                            <div class="flex items-center justify-between text-gray-300 bg-white/5 px-3 py-2 rounded-xl">
+                                <span><i class="fa-solid fa-medal text-gray-300 mr-2"></i> ${item.top2Name}</span>
+                                <span class="font-semibold">${item.top2Km}</span>
+                            </div>
+                            <div class="flex items-center justify-between text-gray-300 bg-white/5 px-3 py-2 rounded-xl">
+                                <span><i class="fa-solid fa-award text-amber-600 mr-2"></i> ${item.top3Name}</span>
+                                <span class="font-semibold">${item.top3Km}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function openAdminModal() {
+            document.getElementById('admin-modal').classList.remove('hidden');
+            document.getElementById('password-screen').classList.remove('hidden');
+            document.getElementById('edit-screen').classList.add('hidden');
+            document.getElementById('admin-password').value = '';
+            document.getElementById('error-msg').classList.add('hidden');
+        }
+
+        function closeAdminModal() {
+            document.getElementById('admin-modal').classList.add('hidden');
+        }
+
+        function checkPassword() {
+            const pass = document.getElementById('admin-password').value;
+            if (pass === ADMIN_PASSWORD) {
+                document.getElementById('password-screen').classList.add('hidden');
+                document.getElementById('edit-screen').classList.remove('hidden');
+                populateAdminForms();
+            } else {
+                document.getElementById('error-msg').classList.remove('hidden');
+            }
+        }
+
+        // Renderowanie formularzy edycji w panelu admina
+        function populateAdminForms() {
+            const data = getData();
+            const container = document.getElementById('admin-months-list');
+            container.innerHTML = '';
+
+            data.forEach((item, index) => {
+                container.innerHTML += `
+                    <div class="bg-black/40 border border-white/10 rounded-2xl p-4 space-y-4 admin-month-card" data-index="${index}">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-vtc-red uppercase">${index === 0 ? 'Bieżący Miesiąc (Strona Główna)' : 'Miesiąc Archiwalny #' + index}</span>
+                            <button onclick="removeMonth(${index})" class="text-red-500 hover:text-red-400 text-xs font-semibold px-2.5 py-1 rounded bg-red-500/10">
+                                <i class="fa-solid fa-trash mr-1"></i> Usuń miesiąc
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="text-[10px] text-gray-400 uppercase font-semibold">Nazwa Miesiąca</label>
+                                <input type="text" class="inp-miesiac w-full mt-1 bg-black/50 border border-white/10 rounded-xl px-3 py-2 text-white text-sm" value="${item.miesiac}">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-gray-400 uppercase font-semibold">Ogółem KM</label>
+                                <input type="text" class="inp-km w-full mt-1 bg-black/50 border border-white/10 rounded-xl px-3 py-2 text-white text-sm" value="${item.km}">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-gray-400 uppercase font-semibold">Miejsce Polska</label>
+                                <input type="text" class="inp-pl w-full mt-1 bg-black/50 border border-white/10 rounded-xl px-3 py-2 text-white text-sm" value="${item.pl}">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-gray-400 uppercase font-semibold">Miejsce Świat</label>
+                                <input type="text" class="inp-world w-full mt-1 bg-black/50 border border-white/10 rounded-xl px-3 py-2 text-white text-sm" value="${item.world}">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                            <div class="bg-black/30 p-2.5 rounded-xl space-y-1">
+                                <span class="text-[10px] font-bold text-vtc-red uppercase">TOP 1</span>
+                                <input type="text" class="inp-top1-name w-full bg-black/50 border border-white/10 rounded-lg px-2 py-1.5 text-white text-xs" placeholder="Imię" value="${item.top1Name}">
+                                <input type="text" class="inp-top1-km w-full bg-black/50 border border-white/10 rounded-lg px-2 py-1.5 text-white text-xs" placeholder="KM" value="${item.top1Km}">
+                            </div>
+                            <div class="bg-black/30 p-2.5 rounded-xl space-y-1">
+                                <span class="text-[10px] font-bold text-gray-300 uppercase">TOP 2</span>
+                                <input type="text" class="inp-top2-name w-full bg-black/50 border border-white/10 rounded-lg px-2 py-1.5 text-white text-xs" placeholder="Imię" value="${item.top2Name}">
+                                <input type="text" class="inp-top2-km w-full bg-black/50 border border-white/10 rounded-lg px-2 py-1.5 text-white text-xs" placeholder="KM" value="${item.top2Km}">
+                            </div>
+                            <div class="bg-black/30 p-2.5 rounded-xl space-y-1">
+                                <span class="text-[10px] font-bold text-amber-600 uppercase">TOP 3</span>
+                                <input type="text" class="inp-top3-name w-full bg-black/50 border border-white/10 rounded-lg px-2 py-1.5 text-white text-xs" placeholder="Imię" value="${item.top3Name}">
+                                <input type="text" class="inp-top3-km w-full bg-black/50 border border-white/10 rounded-lg px-2 py-1.5 text-white text-xs" placeholder="KM" value="${item.top3Km}">
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function addNewMonthForm() {
+            const data = getData();
+            data.unshift({
+                miesiac: "Nowy Miesiąc",
+                km: "0 km",
+                pl: "#1",
+                world: "#1",
+                top1Name: "Kierowca #1",
+                top1Km: "0 km",
+                top2Name: "Kierowca #2",
+                top2Km: "0 km",
+                top3Name: "Kierowca #3",
+                top3Km: "0 km"
+            });
+            saveDataToStorage(data);
+            populateAdminForms();
+            renderPage();
+        }
+
+        function removeMonth(index) {
+            if(confirm("Czy na pewno chcesz usunąć to podsumowanie?")) {
+                let data = getData();
+                data.splice(index, 1);
+                saveDataToStorage(data);
+                populateAdminForms();
+                renderPage();
+            }
+        }
+
+        function saveAllData() {
+            const cards = document.querySelectorAll('.admin-month-card');
+            let newData = [];
+
+            cards.forEach(card => {
+                newData.push({
+                    miesiac: card.querySelector('.inp-miesiac').value,
+                    km: card.querySelector('.inp-km').value,
+                    pl: card.querySelector('.inp-pl').value,
+                    world: card.querySelector('.inp-world').value,
+                    top1Name: card.querySelector('.inp-top1-name').value,
+                    top1Km: card.querySelector('.inp-top1-km').value,
+                    top2Name: card.querySelector('.inp-top2-name').value,
+                    top2Km: card.querySelector('.inp-top2-km').value,
+                    top3Name: card.querySelector('.inp-top3-name').value,
+                    top3Km: card.querySelector('.inp-top3-km').value
+                });
+            });
+
+            saveDataToStorage(newData);
+            renderPage();
+            closeAdminModal();
+            alert("Wszystkie dane zostały pomyślnie zaktualizowane!");
+        }
+
+        window.onload = renderPage;
+    </script>
+</body>
+</html>
